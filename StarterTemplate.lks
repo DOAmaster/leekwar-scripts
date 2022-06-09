@@ -1,0 +1,74 @@
+//** DeepState Script by DOAA https://github.com/DOAmaster/leekwar-scripts **
+//TODO Generic Weapon Equipment for up to 4 guns
+var primaryWeapon = WEAPON_MACHINE_GUN; //first weapon to try to use
+var secondaryWeapon = WEAPON_PISTOL; //second weapon to try to use
+var agressiveTurnNumber = 7; //turn number to switch to aggressive movement
+var AgressiveTurnMessage = "Ok, Ok, lets fight you ";
+var introSpeech = ["abomination", "airhead", "animal", "ape"];
+var myWeapons = getWeapons();
+var enemy = getNearestEnemy(); //get the nearest enemy
+var myLeek = getEntity();
+var turn = getTurn();
+
+//Random insult at start of round
+if(turn == 1) {
+	shuffle(introSpeech);
+	say(introSpeech[0] + " " + introSpeech[1] + "! ");
+}
+//set default primary weapon
+if (getWeapon() == null){
+	if(inArray(myWeapons, primaryWeapon)) {
+		setWeapon(primaryWeapon); // set primary weapon: costs 1 TP
+	}else {
+		setWeapon(myWeapons[0]); // set default weapon if primary is not found
+		primaryWeapon = myWeapons[0];
+	}
+	if(!inArray(myWeapons, secondaryWeapon)){
+		secondaryWeapon = myWeapons[1];
+	}
+}
+//opening blast if in range
+if(canUseWeapon(enemy) and isAlive(enemy)) {
+	while(getTP() >= getWeaponCost(getWeapon()) and isAlive(enemy)){
+		useWeapon(enemy);
+	}
+}else if (canUseWeaponOnCell((secondaryWeapon), getCell(enemy)) and getTP() > 0) {
+	setWeapon((secondaryWeapon)); // Warning: costs 1 TP
+	while(getTP() >= getWeaponCost(getWeapon()) and isAlive(enemy)){
+		useWeapon(enemy);
+	}
+}else{
+	//movement
+	if(turn == agressiveTurnNumber) {
+	shuffle(introSpeech);
+	say( AgressiveTurnMessage + introSpeech[0] + "!");
+	}
+	if(turn >= agressiveTurnNumber){
+		moveToward(enemy);
+	}else{
+		moveAwayFrom(enemy);
+	}
+	/*
+	//try to heal with Cure chip
+	if (canUseChip(CHIP_CURE, myLeek) and (getLife() < getTotalLife())) {
+		useChip(CHIP_CURE, myLeek);
+	}
+	*/
+	//try to heal with Bandage chip
+	if (canUseChip(CHIP_BANDAGE, myLeek) and (getLife() < getTotalLife())) {
+		useChip(CHIP_BANDAGE, myLeek);
+	}
+	//try to use buff chips
+	if (canUseChip(CHIP_PROTEIN, myLeek)) { useChip(CHIP_PROTEIN, myLeek); }
+	//if (canUseChip(CHIP_MOTIVATION, myLeek)) { useChip(CHIP_MOTIVATION, myLeek); }
+	//if (canUseChip(CHIP_STRETCHING, myLeek)) { useChip(CHIP_STRETCHING, myLeek); }
+	//if (canUseChip(CHIP_SHIELD, myLeek)) { useChip(CHIP_SHIELD, myLeek); }
+	//if (canUseChip(CHIP_LEATHER_BOOTS, myLeek)) { useChip(CHIP_LEATHER_BOOTS, myLeek); }
+
+	//try to use attack chips
+	//if (canUseChip(CHIP_SPARK, enemy)) { useChip(CHIP_SPARK, enemy); }
+	//if (canUseChip(CHIP_SHOCK, enemy)) { useChip(CHIP_SHOCK, enemy); }
+	//if (canUseChip(CHIP_FLASH, enemy)) { useChip(CHIP_FLASH, enemy); }
+	//if (canUseChip(CHIP_FLAME, enemy)) { useChip(CHIP_FLAME, enemy); }
+}
+debug("Leftover --- TP: " + getTP() + " --- MP: " + getMP());
