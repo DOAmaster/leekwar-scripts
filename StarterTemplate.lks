@@ -47,8 +47,8 @@ if(canUseWeapon(enemy) and isAlive(enemy)) {
 
 //movement
 if(turn == agressiveTurnNumber) {
-shuffle(introSpeech);
-say( AgressiveTurnMessage + introSpeech[0] + "!");
+	shuffle(introSpeech);
+	say( AgressiveTurnMessage + introSpeech[0] + "!");
 }
 if(turn >= agressiveTurnNumber){
 	if (getLife() <= getTotalLife()/2) {
