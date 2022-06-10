@@ -1,0 +1,21 @@
+/** Exporté le 6/9/2022, 11:51:25 PM **/
+
+/** BasicTurret **/
+
+// BasicTurret logic
+
+// We get the nearest enemy and ally
+var enemy = getNearestEnemy();
+var ally = getNearestAlly();
+
+//try to buff nearest ally
+if (canUseChip(CHIP_CURE, ally)) { useChip(CHIP_CURE, ally); }
+if (canUseChip(CHIP_WALL, ally)) { useChip(CHIP_WALL, ally); }
+if (canUseChip(CHIP_SHIELD, ally)) { useChip(CHIP_SHIELD, ally); }
+if (canUseChip(CHIP_MOTIVATION, ally)) { useChip(CHIP_MOTIVATION, ally); }
+if (canUseChip(CHIP_THORN, ally)) { useChip(CHIP_THORN, ally); }
+
+//try to attack nearest enemy
+if (canUseChip(CHIP_SHOCK, enemy)) { useChip(CHIP_SHOCK, enemy); }
+if (canUseChip(CHIP_SLOW_DOWN, enemy)) { useChip(CHIP_SLOW_DOWN, enemy); }
+if (canUseChip(CHIP_VENOM, enemy)) { useChip(CHIP_VENOM, enemy); }
