@@ -1,0 +1,41 @@
+/** Exporté le 6/15/2022, 8:31:17 PM **/
+
+/** Chatty **/
+
+//Used to get the Chatty trophy. RNG insult style.
+global introSpeech = ["abomination", "airhead", "animal", "ape", "animal", "baby", "ballsack", "bastard", "beginner", "beta", "cuck", "blockhead", "bogeyman", "bonehead", "boob", "boomer", "bootlicker", "bot", "cow", "coward", "crackhead", "craphole", "creeper", "crybaby", "failure", "fairy", "faker", "fart", "fatass", "fatso", "fatty", "fembot", "hypocrite", "idiot", "inbred", "incel", "jabroni", "jackass", "jerk", "wimp", "jizzwizard", "windsucker", "wino", "witch", "woketard", "woman", "worm", "wuss", "xenophobe", "yeti", "zitface", "zoophile", "snail", "snake", "sneakerhead", "snob", "snotball", "snotface", "stinkhole", "stupidhead", "sucker", "swine", "snotwad", "soy boy", "tard", "thot", "toad", "tool", "tranny", "trash", "troll", "turd", "turd burglar", "turdpile", "twat", "wacko", "weirdo"];
+
+var myGun1 = WEAPON_MAGNUM; //First weapon
+var myGun2 = WEAPON_BROADSWORD; //Secondary weapon
+var myGun3 = WEAPON_MAGNUM; //Third weapon
+var enemy = getNearestEnemy(); //get the nearest enemy
+var myLeek = getEntity();
+var turn = getTurn();
+global agressiveTurnNumber = 64; //turn to switch to agressive mode
+
+//Opening move. Trash talk and summon bulb
+if(turn == 1) {
+	say("Sorry in advance...");
+}
+
+//set default weapon
+if (getWeapon() == null){
+	setWeapon(myGun1); // Warning: costs 1 TP	
+}
+
+//movement
+if(turn == agressiveTurnNumber) {
+	shuffle(introSpeech);
+	say("Ok, Ok, lets fight you " + introSpeech[0] + "!");
+}
+if(turn >= agressiveTurnNumber){
+	moveToward(enemy);
+}else{
+	moveAwayFrom(enemy); //move away from enemy at start
+}
+
+//use up all TP to talk
+while(getTP() > 0) {
+	shuffle(introSpeech);
+	say(introSpeech[0] + " " + introSpeech[1] + "! ");
+}
